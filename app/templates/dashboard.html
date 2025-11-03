@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlaskCacheOps Dashboard</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      background-color: #0f172a;
+      color: #e2e8f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background-color: #1e293b;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      padding: 30px 40px;
+      max-width: 500px;
+      text-align: center;
+    }
+    h1 {
+      color: #38bdf8;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+    p {
+      font-size: 1rem;
+      margin: 6px 0;
+    }
+    .status {
+      color: #10b981;
+      font-weight: bold;
+    }
+    .footer {
+      margin-top: 15px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+    .refresh-note {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-top: 8px;
+    }
+    .fade {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card fade">
+    <h1>🚀 {{ data.service }}</h1>
+    <p><strong>Status:</strong> <span class="status">{{ data.status }}</span></p>
+    <p><strong>Environment:</strong> {{ data.environment }}</p>
+    <p><strong>Container:</strong> {{ container_name }}</p>
+    <p><strong>Cache Source:</strong> {{ cache_status }}</p>
+    <p><strong>Uptime:</strong> {{ data.uptime }}</p>
+    <p><strong>Visits:</strong> {{ data.visits }}</p>
+    <p><strong>Message:</strong> {{ data.message }}</p>
+    <p><strong>Timestamp:</strong> {{ data.timestamp }}</p>
+    <p class="footer">Version {{ data.version }} • Host: {{ data.host }}</p>
+    <p class="refresh-note">🔁 Auto-refreshing every 10 seconds...</p>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      window.location.reload();
+    }, 10000);
+  </script>
+</body>
+</html>
+

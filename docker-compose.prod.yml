@@ -1,0 +1,76 @@
+# ========================================
+# 🚀 FlaskCacheOps - Production Deployment
+# ========================================
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: ./app
+    image: flaskcacheops/web:latest
+    container_name: flask_web_prod
+    restart: always
+    ports:
+      - "5000:5000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - flaskredisprod
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  redis:
+    image: redis:alpine
+    container_name: flask_redis_prod
+    restart: always
+    volumes:
+      - redis_data:/data
+    networks:
+      - flaskredisprod
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  nginx:
+    build: ./nginx
+    image: flaskcacheops/nginx:latest
+    container_name: flask_nginx_prod
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      web:
+        condition: service_healthy
+    volumes:
+      - ./nginx/nginx.conf.prod:/etc/nginx/nginx.conf:ro
+      - ./logs/nginx:/var/log/nginx
+    networks:
+      - flaskredisprod
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      interval: 40s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+networks:
+  flaskredisprod:
+    driver: bridge
+
+volumes:
+  redis_data:
+
