@@ -139,7 +139,7 @@ docker logs flaskcacheops_web
 ## 👨‍💻 Author
 
 **Gaurav Chile**
-DevOps & Cybersecurity Enthusiast
+DevOps Enthusiast
 🚀 *Building projects that bridge Development & Operations.*
 
 ---
