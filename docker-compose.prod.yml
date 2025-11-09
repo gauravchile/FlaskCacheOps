@@ -5,8 +5,7 @@ version: "3.9"
 
 services:
   web:
-    build: gauravchile/flaskcacheops
-    image: flaskcacheops/web:latest
+    image: gauravchile/flaskcacheops
     container_name: flask_web_prod
     restart: always
     ports:
