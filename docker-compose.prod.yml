@@ -5,8 +5,7 @@ version: "3.9"
 
 services:
   web:
-    build:
-      context: ./app
+    build: gauravchile/flaskcacheops
     image: flaskcacheops/web:latest
     container_name: flask_web_prod
     restart: always
